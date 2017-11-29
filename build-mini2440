@@ -1,0 +1,31 @@
+1,make mini2440_defconfig
+2,make menuconfig
+3,make
+4, error：
+buildroot/output/build/uboot-custom/tools/mkimage.c:232：对‘image_print_contents_noindent’未定义的引用
+buildroot/output/build/uboot-custom/tools/mkimage.c:235：对‘fit_print_contents_noindent’未定义的引用
+  
+  修改：
+  uboot-custom/common/image.c, 去掉函数定义的inline限制。
+  uboot-custom/common/image.h, 去掉函数申明的inline限制。
+  
+5，error：
+ TIMEC   kernel/timeconst.h
+Can't use 'defined(@array)' (Maybe you should just omit the defined()?) at kernel/timeconst.pl line 373.
+/home/ljj/dg/buildroot/output/build/linux-3.0.4/kernel/Makefile:140: recipe for target 'kernel/timeconst.h' failed
+make[2]: *** [kernel/timeconst.h] Error 255
+
+  修改：
+  kernel/timeconst.pl, if(!define(@val)) 改为 if(!@val).
+  
+6,error：
+
+  serve_image.c:32:18: error: storage size of ‘hints’ isn’t known
+  struct addrinfo hints;
+                  ^
+  serve_image.c:94:19: error: ‘AI_ADDRCONFIG’ undeclared (first use in this function)
+  
+  修改：
+  package/mtd/mtd.mk , 将mtd-utils 版本改为 1.5.2.
+
+
